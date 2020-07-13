@@ -6,9 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import unip.tcc.homecare.model.User;
-import unip.tcc.homecare.model.Vehicle;
 import unip.tcc.homecare.repository.UserRepository;
-import unip.tcc.homecare.repository.VehicleRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +16,6 @@ import java.util.List;
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired
-    private VehicleRepository vehicleRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -28,14 +23,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        List<Vehicle> vehicles = vehicleRepository.findAll();
-        if(vehicles.isEmpty()) {
-            log.debug("Initializing vehicle data");
-            Arrays.asList("Moto", "Car").forEach(v -> vehicleRepository.save(new Vehicle(v)));
-            log.debug("Printing all vehicles...");
-            vehicleRepository.findAll().forEach(v -> log.debug(" Vehicle: "+ v.getName()));
-        }
 
         List<User> users = userRepository.findAll();
         if(users.isEmpty()) {
