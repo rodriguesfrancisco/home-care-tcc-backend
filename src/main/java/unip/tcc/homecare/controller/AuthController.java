@@ -42,6 +42,7 @@ public class AuthController {
             TokenDTO tokenDTO = new TokenDTO();
             tokenDTO.setUsername(username);
             tokenDTO.setToken(token);
+            tokenDTO.setExpireDate(jwtTokenProvider.getExpireDate(token));
 
             return ResponseEntity.ok(tokenDTO);
         } catch(AuthenticationException ex) {
