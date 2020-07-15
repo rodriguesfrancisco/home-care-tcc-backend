@@ -25,7 +25,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
-        final List<String> excludedAuthUrl = Arrays.asList("/auth/login");
+        final List<String> excludedAuthUrl = Arrays.asList("/auth/login", "/auth/register");
 
         String url = "";
         if(req instanceof HttpServletRequest) {

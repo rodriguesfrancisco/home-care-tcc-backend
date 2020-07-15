@@ -16,7 +16,7 @@ public class UserinfoController {
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails) {
         TokenDTO tokenDTO = new TokenDTO();
-        tokenDTO.setUsername(userDetails.getUsername());
+        tokenDTO.setEmail(userDetails.getUsername());
         tokenDTO.setRoles(userDetails.getAuthorities()
                             .stream()
                             .map(a -> ((GrantedAuthority) a).getAuthority())

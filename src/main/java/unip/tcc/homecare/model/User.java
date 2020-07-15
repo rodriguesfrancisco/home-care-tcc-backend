@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private Long id;
 
     @NotEmpty
-    private String username;
+    private String email;
 
     @NotEmpty
     private String password;
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     @Override

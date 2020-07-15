@@ -26,28 +26,29 @@ public class DataInitializer implements CommandLineRunner {
 
         List<User> users = userRepository.findAll();
         if(users.isEmpty()) {
-            log.debug("Initializing users");
+            log.info("Initializing users");
             userRepository.save(User.builder()
-                    .username("admin")
+                    .email("admin@admin.com")
                     .password(passwordEncoder.encode("admin"))
                     .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
                     .build());
 
             userRepository.save(User.builder()
-                    .username("paciente")
+                    .email("paciente@123.com")
                     .password(passwordEncoder.encode("paciente123"))
                     .roles(Arrays.asList("ROLE_USER_PACIENTE"))
                     .build());
 
             userRepository.save(User.builder()
-                    .username("profissional")
+                    .email("profissional@123.com")
                     .password(passwordEncoder.encode("profissional123"))
                     .roles(Arrays.asList("ROLE_USER_PROFISSIONAL"))
                     .build());
 
-            log.debug("Printing users...");
-            userRepository.findAll().forEach(u -> log.debug(" User: " + u.getUsername()));
+            log.info("Printing users...");
         }
+
+        userRepository.findAll().forEach(u -> log.info(" User: " + u.getUsername()));
 
     }
 }
