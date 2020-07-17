@@ -2,13 +2,16 @@ package unip.tcc.homecare.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 import unip.tcc.homecare.dto.AuthenticationDTO;
-import unip.tcc.homecare.dto.UserRegisterDTO;
+import unip.tcc.homecare.dto.TokenDTO;
+import unip.tcc.homecare.dto.UserDTO;
 import unip.tcc.homecare.service.AuthService;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,7 +26,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserRegisterDTO userRegister) {
+    public ResponseEntity register(@RequestBody UserDTO userRegister) {
         return authService.register(userRegister);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return authService.currentUser(userDetails);
     }
 }

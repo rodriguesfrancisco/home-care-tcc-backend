@@ -6,18 +6,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import unip.tcc.homecare.dto.AuthenticationDTO;
 import unip.tcc.homecare.dto.TokenDTO;
-import unip.tcc.homecare.dto.UserRegisterDTO;
+import unip.tcc.homecare.dto.UserDTO;
 import unip.tcc.homecare.model.User;
 import unip.tcc.homecare.repository.UserRepository;
 import unip.tcc.homecare.security.jwt.JwtTokenProvider;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -52,17 +55,30 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity register(@RequestBody UserRegisterDTO userRegister) {
+    public ResponseEntity register(UserDTO userRegister) {
         Optional<User> userByEmail = userRepository.findByEmail(userRegister.getEmail());
         if(userByEmail.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe um usuário com este email");
         }
         User newUser = new User();
+        newUser.setNomeCompleto(userRegister.getNomeCompleto());
         newUser.setEmail(userRegister.getEmail());
         newUser.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         newUser.setRoles(userRegister.getRoles());
 
         userRepository.save(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    public ResponseEntity currentUser(UserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() ->
+            new UsernameNotFoundException("Usuário não encontrado")
+        );
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(user.getEmail());
+        userDTO.setNomeCompleto(user.getNomeCompleto());
+        userDTO.setRoles(user.getRoles());
+
+        return ResponseEntity.ok(userDTO);
     }
 }

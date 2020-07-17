@@ -1,5 +1,6 @@
 package unip.tcc.homecare.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserRegisterDTO {
+@Data
+public class UserDTO {
 
     private String email;
     private String password;
