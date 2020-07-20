@@ -79,6 +79,13 @@ public class AuthService {
         userDTO.setNomeCompleto(user.getNomeCompleto());
         userDTO.setRoles(user.getRoles());
 
+        UserDTO pacienteDTO = new UserDTO();
+        pacienteDTO.setNomeCompleto(user.getPaciente().getNomeCompleto());
+        pacienteDTO.setEmail(user.getPaciente().getEmail());
+        pacienteDTO.setRoles(user.getPaciente().getRoles());
+
+        userDTO.setPaciente(pacienteDTO);
+
         return ResponseEntity.ok(userDTO);
     }
 }
