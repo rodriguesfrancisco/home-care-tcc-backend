@@ -34,12 +34,21 @@ public class DataInitializer implements CommandLineRunner {
                     .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
                     .build());
 
-            userRepository.save(User.builder()
-                    .email("paciente@123.com")
+
+            User responsavel1 = User.builder()
+                    .email("responsavel@123.com")
+                    .nomeCompleto("Eu sou um responsável")
+                    .password(passwordEncoder.encode("responsavel123"))
+                    .roles(Arrays.asList("ROLE_USER_RESPONSAVEL"))
+                    .build();
+
+            User paciente1 = User.builder()
                     .nomeCompleto("Eu sou um paciente")
-                    .password(passwordEncoder.encode("paciente123"))
                     .roles(Arrays.asList("ROLE_USER_PACIENTE"))
-                    .build());
+                    .build();
+
+            responsavel1.setPaciente(paciente1);
+            userRepository.save(responsavel1);
 
             userRepository.save(User.builder()
                     .email("profissional@123.com")

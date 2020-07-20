@@ -27,10 +27,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     private String email;
 
-    @NotEmpty
     private String password;
 
     @NotEmpty
@@ -39,6 +37,10 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "paciente_id")
+    private User paciente;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
