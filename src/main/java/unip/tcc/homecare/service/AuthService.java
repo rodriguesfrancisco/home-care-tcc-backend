@@ -66,6 +66,14 @@ public class AuthService {
         newUser.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         newUser.setRoles(userRegister.getRoles());
 
+        if(userRegister.getPaciente() != null) {
+            User paciente = new User();
+            paciente.setNomeCompleto(userRegister.getPaciente().getNomeCompleto());
+            paciente.setRoles(userRegister.getPaciente().getRoles());
+
+            newUser.setPaciente(paciente);
+        }
+
         userRepository.save(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -75,16 +83,21 @@ public class AuthService {
             new UsernameNotFoundException("Usuário não encontrado")
         );
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setNomeCompleto(user.getNomeCompleto());
         userDTO.setRoles(user.getRoles());
 
-        UserDTO pacienteDTO = new UserDTO();
-        pacienteDTO.setNomeCompleto(user.getPaciente().getNomeCompleto());
-        pacienteDTO.setEmail(user.getPaciente().getEmail());
-        pacienteDTO.setRoles(user.getPaciente().getRoles());
+        if(user.getPaciente() != null) {
+            UserDTO pacienteDTO = new UserDTO();
+            pacienteDTO.setId(user.getPaciente().getId());
+            pacienteDTO.setNomeCompleto(user.getPaciente().getNomeCompleto());
+            pacienteDTO.setEmail(user.getPaciente().getEmail());
+            pacienteDTO.setRoles(user.getPaciente().getRoles());
 
-        userDTO.setPaciente(pacienteDTO);
+            userDTO.setPaciente(pacienteDTO);
+        }
+
 
         return ResponseEntity.ok(userDTO);
     }
