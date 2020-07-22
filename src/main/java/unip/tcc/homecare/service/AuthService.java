@@ -64,6 +64,7 @@ public class AuthService {
         newUser.setNomeCompleto(userRegister.getNomeCompleto());
         newUser.setEmail(userRegister.getEmail());
         newUser.setPassword(passwordEncoder.encode(userRegister.getPassword()));
+        newUser.setDiaNascimento(userRegister.getDiaNascimento());
         newUser.setRoles(userRegister.getRoles());
 
         if(userRegister.getPaciente() != null) {
@@ -86,6 +87,7 @@ public class AuthService {
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setNomeCompleto(user.getNomeCompleto());
+        userDTO.setDiaNascimento(user.getDiaNascimento());
         userDTO.setRoles(user.getRoles());
 
         if(user.getPaciente() != null) {

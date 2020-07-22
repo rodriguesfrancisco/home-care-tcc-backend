@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import unip.tcc.homecare.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class UserDTO {
     private String email;
     private String password;
     private String nomeCompleto;
+    private LocalDate diaNascimento;
     private List<String> roles;
     private UserDTO paciente;
 }

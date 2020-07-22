@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,8 @@ public class User implements UserDetails {
 
     @NotEmpty
     private String nomeCompleto;
+
+    private LocalDate diaNascimento;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
