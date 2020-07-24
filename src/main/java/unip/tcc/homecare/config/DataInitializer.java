@@ -40,13 +40,15 @@ public class DataInitializer implements CommandLineRunner {
                     .email("responsavel@123.com")
                     .nomeCompleto("Eu sou um responsável")
                     .password(passwordEncoder.encode("responsavel123"))
-                    .diaNascimento(LocalDate.of(1999, 5, 24))
+                    .dataNascimento(LocalDate.of(1999, 5, 24))
+                    .sexo('F')
                     .roles(Arrays.asList("ROLE_USER_RESPONSAVEL"))
                     .build();
 
             User paciente1 = User.builder()
                     .nomeCompleto("Eu sou um paciente")
-                    .diaNascimento(LocalDate.of(1999, 5, 26))
+                    .dataNascimento(LocalDate.of(1999, 5, 26))
+                    .sexo('M')
                     .roles(Arrays.asList("ROLE_USER_PACIENTE"))
                     .build();
 
@@ -56,7 +58,8 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(User.builder()
                     .email("profissional@123.com")
                     .nomeCompleto("Eu sou um profissional")
-                    .diaNascimento(LocalDate.of(1999, 5, 24))
+                    .dataNascimento(LocalDate.of(1999, 5, 24))
+                    .sexo('M')
                     .password(passwordEncoder.encode("profissional123"))
                     .roles(Arrays.asList("ROLE_USER_PROFISSIONAL"))
                     .build());

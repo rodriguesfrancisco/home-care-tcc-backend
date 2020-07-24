@@ -19,7 +19,8 @@ public class UserDTO {
     private String email;
     private String password;
     private String nomeCompleto;
-    private LocalDate diaNascimento;
+    private LocalDate dataNascimento;
+    private Character sexo;
     private List<String> roles;
     private UserDTO paciente;
 }

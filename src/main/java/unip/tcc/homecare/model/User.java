@@ -28,6 +28,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -35,7 +36,9 @@ public class User implements UserDetails {
     @NotEmpty
     private String nomeCompleto;
 
-    private LocalDate diaNascimento;
+    private LocalDate dataNascimento;
+
+    private Character sexo;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,6 @@ import unip.tcc.homecare.repository.UserRepository;
 import unip.tcc.homecare.security.jwt.JwtTokenProvider;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -64,12 +62,15 @@ public class AuthService {
         newUser.setNomeCompleto(userRegister.getNomeCompleto());
         newUser.setEmail(userRegister.getEmail());
         newUser.setPassword(passwordEncoder.encode(userRegister.getPassword()));
-        newUser.setDiaNascimento(userRegister.getDiaNascimento());
+        newUser.setDataNascimento(userRegister.getDataNascimento());
+        newUser.setSexo(userRegister.getSexo());
         newUser.setRoles(userRegister.getRoles());
 
         if(userRegister.getPaciente() != null) {
             User paciente = new User();
             paciente.setNomeCompleto(userRegister.getPaciente().getNomeCompleto());
+            paciente.setDataNascimento(userRegister.getPaciente().getDataNascimento());
+            paciente.setSexo(userRegister.getPaciente().getSexo());
             paciente.setRoles(userRegister.getPaciente().getRoles());
 
             newUser.setPaciente(paciente);
@@ -87,14 +88,16 @@ public class AuthService {
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setNomeCompleto(user.getNomeCompleto());
-        userDTO.setDiaNascimento(user.getDiaNascimento());
+        userDTO.setDataNascimento(user.getDataNascimento());
+        userDTO.setSexo(user.getSexo());
         userDTO.setRoles(user.getRoles());
 
         if(user.getPaciente() != null) {
             UserDTO pacienteDTO = new UserDTO();
             pacienteDTO.setId(user.getPaciente().getId());
             pacienteDTO.setNomeCompleto(user.getPaciente().getNomeCompleto());
-            pacienteDTO.setEmail(user.getPaciente().getEmail());
+            pacienteDTO.setDataNascimento(user.getPaciente().getDataNascimento());
+            pacienteDTO.setSexo(user.getPaciente().getSexo());
             pacienteDTO.setRoles(user.getPaciente().getRoles());
 
             userDTO.setPaciente(pacienteDTO);
