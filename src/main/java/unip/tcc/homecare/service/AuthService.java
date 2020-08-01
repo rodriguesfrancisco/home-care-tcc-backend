@@ -66,14 +66,16 @@ public class AuthService {
         newUser.setSexo(userRegister.getSexo());
         newUser.setRoles(userRegister.getRoles());
 
-        if(userRegister.getPaciente() != null) {
+        if(userRegister.isResponsavel()) {
             User paciente = new User();
             paciente.setNomeCompleto(userRegister.getPaciente().getNomeCompleto());
             paciente.setDataNascimento(userRegister.getPaciente().getDataNascimento());
             paciente.setSexo(userRegister.getPaciente().getSexo());
             paciente.setRoles(userRegister.getPaciente().getRoles());
-
+            paciente.setEndereco(userRegister.getEndereco());
             newUser.setPaciente(paciente);
+        } else {
+            newUser.setEndereco(userRegister.getEndereco());
         }
 
         userRepository.save(newUser);
@@ -99,8 +101,11 @@ public class AuthService {
             pacienteDTO.setDataNascimento(user.getPaciente().getDataNascimento());
             pacienteDTO.setSexo(user.getPaciente().getSexo());
             pacienteDTO.setRoles(user.getPaciente().getRoles());
+            pacienteDTO.setEndereco(user.getPaciente().getEndereco());
 
             userDTO.setPaciente(pacienteDTO);
+        } else {
+            userDTO.setEndereco(user.getEndereco());
         }
 
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import unip.tcc.homecare.model.Endereco;
 import unip.tcc.homecare.model.User;
 import unip.tcc.homecare.repository.UserRepository;
 
@@ -55,14 +56,27 @@ public class DataInitializer implements CommandLineRunner {
             responsavel1.setPaciente(paciente1);
             userRepository.save(responsavel1);
 
-            userRepository.save(User.builder()
+            Endereco enderecoProfissional = Endereco.builder()
+                    .cep("72222222")
+                    .numero(22)
+                    .cidade("São Paulo")
+                    .uf("SP")
+                    .endereco("Quadra 2 rua 123")
+                    .build();
+
+            User profissional = User.builder()
                     .email("profissional@123.com")
                     .nomeCompleto("Eu sou um profissional")
                     .dataNascimento(LocalDate.of(1999, 5, 24))
                     .sexo('M')
+                    .endereco(enderecoProfissional)
                     .password(passwordEncoder.encode("profissional123"))
                     .roles(Arrays.asList("ROLE_USER_PROFISSIONAL"))
-                    .build());
+                    .build();
+
+            enderecoProfissional.setUser(profissional);
+
+            userRepository.save(profissional);
 
             log.info("Printing users...");
         }

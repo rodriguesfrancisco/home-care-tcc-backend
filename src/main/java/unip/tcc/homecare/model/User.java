@@ -48,6 +48,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "paciente_id")
     private User paciente;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Endereco endereco;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
