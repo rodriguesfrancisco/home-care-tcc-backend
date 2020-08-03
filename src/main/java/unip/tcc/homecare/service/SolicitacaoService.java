@@ -16,4 +16,8 @@ public class SolicitacaoService {
     public List<Solicitacao> listSolicitacoesByUser(Long userId) {
         return solicitacaoRepository.findAllByUserId(userId);
     }
+
+    public void cadastrarSolicitacao(Solicitacao solicitacao) {
+        solicitacaoRepository.save(solicitacao);
+    }
 }
