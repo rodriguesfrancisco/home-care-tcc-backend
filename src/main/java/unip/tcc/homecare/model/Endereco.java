@@ -5,12 +5,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "endereco")
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Endereco {
 
     @Id
@@ -33,3 +35,4 @@ public class Endereco {
     private User user;
 
 }
+

@@ -5,12 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import unip.tcc.homecare.enums.StatusSolicitacao;
 import unip.tcc.homecare.model.Endereco;
+import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
+import unip.tcc.homecare.repository.SolicitacaoRepository;
 import unip.tcc.homecare.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -19,6 +23,9 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SolicitacaoRepository solicitacaoRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -83,5 +90,11 @@ public class DataInitializer implements CommandLineRunner {
 
         userRepository.findAll().forEach(u -> log.info(" User: " + u.getUsername()));
 
+        Solicitacao solicitacao = new Solicitacao();
+        solicitacao.setDataSolicitacao(new Date());
+        solicitacao.setInformacoes("Uma solicitação");
+        solicitacao.setStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
+
+        solicitacaoRepository.save(solicitacao);
     }
 }

@@ -72,10 +72,12 @@ public class AuthService {
             paciente.setDataNascimento(userRegister.getPaciente().getDataNascimento());
             paciente.setSexo(userRegister.getPaciente().getSexo());
             paciente.setRoles(userRegister.getPaciente().getRoles());
-            paciente.setEndereco(userRegister.getEndereco());
+            paciente.setEndereco(userRegister.getPaciente().getEndereco());
+            paciente.getEndereco().setUser(paciente);
             newUser.setPaciente(paciente);
         } else {
             newUser.setEndereco(userRegister.getEndereco());
+            newUser.getEndereco().setUser(newUser);
         }
 
         userRepository.save(newUser);

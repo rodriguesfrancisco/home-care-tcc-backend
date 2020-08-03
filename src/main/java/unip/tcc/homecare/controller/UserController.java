@@ -18,6 +18,6 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User findOne(@PathVariable Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Faiô"));
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 }
