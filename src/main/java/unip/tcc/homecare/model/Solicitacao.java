@@ -26,5 +26,7 @@ public class Solicitacao {
 
     private StatusSolicitacao statusSolicitacao;
 
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

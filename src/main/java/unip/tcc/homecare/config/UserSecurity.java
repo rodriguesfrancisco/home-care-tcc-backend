@@ -9,6 +9,9 @@ import unip.tcc.homecare.model.User;
 public class UserSecurity {
     public boolean hasUserId(Authentication authentication, Long userId) {
         User user = (User)authentication.getPrincipal();
+        if (user.isResponsavel())
+            return user.getPaciente().getId().equals(userId);
+
         return user.getId().equals(userId);
     }
 }

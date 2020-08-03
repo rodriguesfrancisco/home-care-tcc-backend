@@ -86,15 +86,19 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(profissional);
 
             log.info("Printing users...");
+
+            userRepository.findAll().forEach(u -> log.info(" User: " + u.getUsername()));
+
+            List<Solicitacao> solicitacoes = solicitacaoRepository.findAll();
+            if(solicitacoes.isEmpty()) {
+                Solicitacao solicitacao = new Solicitacao();
+                solicitacao.setDataSolicitacao(new Date());
+                solicitacao.setInformacoes("Uma solicitação");
+                solicitacao.setStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
+                solicitacao.setUser(paciente1);
+
+                solicitacaoRepository.save(solicitacao);
+            }
         }
-
-        userRepository.findAll().forEach(u -> log.info(" User: " + u.getUsername()));
-
-        Solicitacao solicitacao = new Solicitacao();
-        solicitacao.setDataSolicitacao(new Date());
-        solicitacao.setInformacoes("Uma solicitação");
-        solicitacao.setStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
-
-        solicitacaoRepository.save(solicitacao);
     }
 }
