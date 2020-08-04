@@ -2,16 +2,12 @@ package unip.tcc.homecare.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import unip.tcc.homecare.dto.AuthenticationDTO;
-import unip.tcc.homecare.dto.TokenDTO;
 import unip.tcc.homecare.dto.UserDTO;
 import unip.tcc.homecare.service.AuthService;
-
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -59,6 +60,14 @@ public class JwtTokenProvider {
 
     public Date getExpireDate(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
+    }
+
+    public List<String> getRoles(String token) {
+        String username = getUsername(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        List<String> roles = new ArrayList<>();
+        userDetails.getAuthorities().stream().forEach(grantedAuthority -> roles.add(grantedAuthority.toString()));
+        return roles;
     }
 
     public String resolveToken(HttpServletRequest req) {

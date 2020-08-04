@@ -46,6 +46,7 @@ public class AuthService {
             tokenDTO.setEmail(email);
             tokenDTO.setToken(token);
             tokenDTO.setExpireDate(jwtTokenProvider.getExpireDate(token));
+            tokenDTO.setRoles(jwtTokenProvider.getRoles(token));
 
             return ResponseEntity.ok(tokenDTO);
         } catch(AuthenticationException ex) {
