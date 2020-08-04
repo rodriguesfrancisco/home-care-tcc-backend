@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.service.SolicitacaoService;
 
-import java.util.List;
-
 @RestController
 public class SolicitacaoController {
 
@@ -16,13 +14,17 @@ public class SolicitacaoController {
     private SolicitacaoService solicitacaoService;
 
     @GetMapping("/users/{userId}/solicitacoes")
-    public ResponseEntity<List<Solicitacao>> listarSolicitacoesByUser(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(solicitacaoService.listSolicitacoesByUser(userId));
+    public ResponseEntity<Solicitacao> getSolicitacoesByUser(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(solicitacaoService.getSolicitacaoByUser(userId));
     }
 
     @PostMapping("/users/{userId}/solicitacoes")
-    public ResponseEntity cadastrarSolicitacao(@RequestBody Solicitacao solicitacao) {
-        solicitacaoService.cadastrarSolicitacao(solicitacao);
+    public ResponseEntity cadastrarSolicitacao(@PathVariable("userId") Long userId, @RequestBody Solicitacao solicitacao) {
+        try {
+            solicitacaoService.cadastrarSolicitacao(userId ,solicitacao);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
