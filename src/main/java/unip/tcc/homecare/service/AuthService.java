@@ -39,10 +39,12 @@ public class AuthService {
         try {
             String email = authenticationDTO.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, authenticationDTO.getPassword()));
-            String token = jwtTokenProvider.createToken(email, userRepository.findByEmail(email).orElseThrow(() ->
-                    new UsernameNotFoundException("Username: " + email + " not found")).getRoles());
+            User user = userRepository.findByEmail(email).orElseThrow(() ->
+                    new UsernameNotFoundException("Username: " + email + " not found"));
+            String token = jwtTokenProvider.createToken(email, user.getRoles());
 
             TokenDTO tokenDTO = new TokenDTO();
+            tokenDTO.setId(user.getId());
             tokenDTO.setEmail(email);
             tokenDTO.setToken(token);
             tokenDTO.setExpireDate(jwtTokenProvider.getExpireDate(token));

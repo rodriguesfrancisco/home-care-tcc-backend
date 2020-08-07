@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class TokenDTO {
+    private Long id;
     private String email;
     private String token;
     private List roles;

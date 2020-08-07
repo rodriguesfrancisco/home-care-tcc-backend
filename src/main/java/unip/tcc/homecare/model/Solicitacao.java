@@ -20,6 +20,8 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String titulo;
+
     private String informacoes;
 
     private Date dataSolicitacao;

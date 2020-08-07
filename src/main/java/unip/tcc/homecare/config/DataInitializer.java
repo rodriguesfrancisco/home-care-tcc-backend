@@ -85,6 +85,28 @@ public class DataInitializer implements CommandLineRunner {
 
             userRepository.save(profissional);
 
+            Endereco enderecoPaciente = Endereco.builder()
+                    .cep("72222222")
+                    .numero(22)
+                    .cidade("São Paulo")
+                    .uf("SP")
+                    .endereco("Quadra 2 rua 123")
+                    .build();
+
+            User paciente2 = User.builder()
+                    .email("paciente@2.com")
+                    .nomeCompleto("Eu sou um paciente 2")
+                    .dataNascimento(LocalDate.of(1999, 5, 24))
+                    .sexo('M')
+                    .endereco(enderecoPaciente)
+                    .password(passwordEncoder.encode("paciente123"))
+                    .roles(Arrays.asList("ROLE_USER_PACIENTE"))
+                    .build();
+
+            enderecoPaciente.setUser(paciente2);
+
+            userRepository.save(paciente2);
+
             log.info("Printing users...");
 
             userRepository.findAll().forEach(u -> log.info(" User: " + u.getUsername()));
@@ -92,10 +114,11 @@ public class DataInitializer implements CommandLineRunner {
             List<Solicitacao> solicitacoes = solicitacaoRepository.findAll();
             if(solicitacoes.isEmpty()) {
                 Solicitacao solicitacao = new Solicitacao();
+                solicitacao.setTitulo("Título da solicitação");
                 solicitacao.setDataSolicitacao(new Date());
                 solicitacao.setInformacoes("Uma solicitação");
                 solicitacao.setStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
-                solicitacao.setUser(paciente1);
+                solicitacao.setUser(paciente2);
 
                 solicitacaoRepository.save(solicitacao);
             }
