@@ -40,4 +40,13 @@ public class SolicitacaoService {
         solicitacao.setUser(userSolicitacao);
         solicitacaoRepository.save(solicitacao);
     }
+
+    public void deleteSolicitacao(Long idSolicitacao) {
+        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findById(idSolicitacao);
+        if(optionalSolicitacao.isPresent()) {
+            solicitacaoRepository.delete(optionalSolicitacao.get());
+        } else {
+            throw new IllegalArgumentException("Solicitação não encontrada");
+        }
+    }
 }
