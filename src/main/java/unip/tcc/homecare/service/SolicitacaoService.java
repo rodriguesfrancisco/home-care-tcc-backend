@@ -49,4 +49,8 @@ public class SolicitacaoService {
             throw new IllegalArgumentException("Solicitação não encontrada");
         }
     }
+
+    public void editarSolicitacao(Solicitacao solicitacao) {
+        solicitacaoRepository.save(solicitacao);
+    }
 }

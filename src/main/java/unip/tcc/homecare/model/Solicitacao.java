@@ -1,5 +1,6 @@
 package unip.tcc.homecare.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import unip.tcc.homecare.enums.StatusSolicitacao;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Table(name = "solicitacao")
 @Getter
 @Setter
+@AllArgsConstructor
 public class Solicitacao {
 
     public Solicitacao() {

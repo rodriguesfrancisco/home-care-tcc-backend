@@ -47,4 +47,10 @@ public class SolicitacaoController {
 
         return ResponseEntity.ok().body(new CustomResponse("Solicitação deletada", HttpStatus.OK.value()));
     }
+
+    @PutMapping("/users/{userId}/solicitacoes")
+    public ResponseEntity editarSolicitacao(@RequestBody Solicitacao solicitacao) {
+        solicitacaoService.editarSolicitacao(solicitacao);
+        return ResponseEntity.ok().body(new CustomResponse("Solicitação Atualizada", HttpStatus.OK.value()));
+    }
 }
