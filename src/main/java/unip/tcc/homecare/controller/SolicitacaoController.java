@@ -16,6 +16,15 @@ public class SolicitacaoController {
     @Autowired
     private SolicitacaoService solicitacaoService;
 
+    @GetMapping("/solicitacoes")
+    public ResponseEntity getSolicitacoesEmAberto() {
+        try {
+            return ResponseEntity.ok(solicitacaoService.getSolicitacoesEmAberto());
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/users/{userId}/solicitacoes")
     public ResponseEntity getSolicitacoesByUser(@PathVariable("userId") Long userId) {
         try {

@@ -3,10 +3,12 @@ package unip.tcc.homecare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import unip.tcc.homecare.enums.StatusSolicitacao;
 import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +16,11 @@ public class SolicitacaoService {
 
     @Autowired
     private SolicitacaoRepository solicitacaoRepository;
+
+    @Secured({ "ROLE_USER_PROFISSIONAL" })
+    public List<Solicitacao> getSolicitacoesEmAberto() {
+        return solicitacaoRepository.findByStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
+    }
 
     @Secured({ "ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL" })
     public Solicitacao getSolicitacaoByUser(Long userId) {
