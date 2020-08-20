@@ -28,6 +28,10 @@ public class Solicitacao {
 
     private Date dataSolicitacao;
 
+    private Character preferenciaSexoProfissional;
+
+    private Double valorAproximadoSolicitacao;
+
     private StatusSolicitacao statusSolicitacao;
 
     @OneToOne
