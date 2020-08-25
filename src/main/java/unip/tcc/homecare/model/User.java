@@ -1,10 +1,7 @@
 package unip.tcc.homecare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +16,25 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class User implements UserDetails {
+
+    public User() {
+    }
+
+    public User(Long id, String email, String password, @NotEmpty String nomeCompleto, LocalDate dataNascimento, Character sexo, List<String> roles, User paciente, UserEndereco userEndereco) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
+        this.sexo = sexo;
+        this.roles = roles;
+        this.paciente = paciente;
+        this.endereco = userEndereco;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +62,7 @@ public class User implements UserDetails {
     private User paciente;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Endereco endereco;
+    private UserEndereco endereco;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

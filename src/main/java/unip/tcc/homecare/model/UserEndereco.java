@@ -5,15 +5,25 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "endereco")
-@Data
 @Builder
-public class Endereco {
+@Getter
+@Setter
+public class UserEndereco {
+
+    public UserEndereco() {
+    }
+
+    public UserEndereco(Long id, String cep, String endereco, Integer numero, String cidade, String uf, User user) {
+        this.id = id;
+        this.cep = cep;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.user = user;
+    }
 
     @Id
     @Column(name = "id")

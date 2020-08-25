@@ -6,9 +6,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import unip.tcc.homecare.enums.StatusSolicitacao;
-import unip.tcc.homecare.model.Endereco;
+
 import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
+import unip.tcc.homecare.model.UserEndereco;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 import unip.tcc.homecare.repository.UserRepository;
 
@@ -63,7 +64,7 @@ public class DataInitializer implements CommandLineRunner {
             responsavel1.setPaciente(paciente1);
             userRepository.save(responsavel1);
 
-            Endereco enderecoProfissional = Endereco.builder()
+            UserEndereco enderecoProfissional = UserEndereco.builder()
                     .cep("72222222")
                     .numero(22)
                     .cidade("São Paulo")
@@ -85,7 +86,7 @@ public class DataInitializer implements CommandLineRunner {
 
             userRepository.save(profissional);
 
-            Endereco enderecoPaciente = Endereco.builder()
+            UserEndereco enderecoPaciente = UserEndereco.builder()
                     .cep("72222222")
                     .numero(22)
                     .cidade("São Paulo")

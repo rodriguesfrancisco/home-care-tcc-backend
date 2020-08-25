@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import unip.tcc.homecare.model.User;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,8 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         String username = getUsername(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        User userDetails = (User)userDetailsService.loadUserByUsername(username);
+        userDetails.getEndereco().setUser(null);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

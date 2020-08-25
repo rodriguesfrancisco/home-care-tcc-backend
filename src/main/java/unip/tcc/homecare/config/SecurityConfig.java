@@ -16,7 +16,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import unip.tcc.homecare.security.jwt.JwtConfigurer;
 import unip.tcc.homecare.security.jwt.JwtTokenProvider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -42,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/login", "/auth/register").permitAll()
+                .antMatchers("/auth/login", "/auth/register", "/socket").permitAll()
                 .antMatchers("/users/{userId}/**")
                     .access("@userSecurity.hasUserId(authentication, #userId)")
                 .anyRequest().authenticated()
@@ -53,7 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setMaxAge(31536000L);
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
