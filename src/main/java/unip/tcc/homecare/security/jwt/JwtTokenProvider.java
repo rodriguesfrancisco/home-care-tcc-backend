@@ -1,6 +1,8 @@
 package unip.tcc.homecare.security.jwt;
 
 import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,8 @@ import java.util.List;
 
 @Component
 public class JwtTokenProvider {
+
+    Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
@@ -53,6 +57,7 @@ public class JwtTokenProvider {
         String username = getUsername(token);
         User userDetails = (User)userDetailsService.loadUserByUsername(username);
         userDetails.getEndereco().setUser(null);
+        logger.info("AAAAAAAAAAAAA: " + userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
