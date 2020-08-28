@@ -57,7 +57,6 @@ public class JwtTokenProvider {
         String username = getUsername(token);
         User userDetails = (User)userDetailsService.loadUserByUsername(username);
         userDetails.getEndereco().setUser(null);
-        logger.info("AAAAAAAAAAAAA: " + userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

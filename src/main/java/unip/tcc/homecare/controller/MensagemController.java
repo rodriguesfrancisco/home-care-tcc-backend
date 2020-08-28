@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import unip.tcc.homecare.dto.UsersMensagemDTO;
 import unip.tcc.homecare.model.Mensagem;
 import unip.tcc.homecare.repository.MensagemRepository;
 import unip.tcc.homecare.service.SocketService;
@@ -24,5 +25,12 @@ public class MensagemController {
             @PathVariable("fromId1") Long fromId1, @PathVariable("fromId2") Long fromId2
     ) {
         return ResponseEntity.ok(socketService.listarMensagens(fromId1, fromId2));
+    }
+
+    @GetMapping("/user/{fromId}/{toId}")
+    private ResponseEntity<UsersMensagemDTO> listarUsersMensagens(
+            @PathVariable("fromId") Long fromId, @PathVariable("toId") Long toId
+    ) {
+        return ResponseEntity.ok(socketService.listarUserMensagens(fromId, toId));
     }
 }
