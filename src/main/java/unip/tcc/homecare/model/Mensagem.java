@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -24,4 +25,7 @@ public class Mensagem {
 
     @NotNull
     private Long toId;
+
+    @NotNull
+    private Date date;
 }

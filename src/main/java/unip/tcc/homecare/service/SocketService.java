@@ -14,6 +14,7 @@ import unip.tcc.homecare.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class SocketService {
     private SimpMessagingTemplate messagingTemplate;
 
     public ResponseEntity enviarMensagem(Mensagem mensagem) {
+        mensagem.setDate(new Date());
         mensagemRepository.save(mensagem);
 
         messagingTemplate.convertAndSend("/status-processor/" + mensagem.getFromId(), mensagem);
