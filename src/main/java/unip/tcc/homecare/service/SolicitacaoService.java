@@ -8,6 +8,7 @@ import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class SolicitacaoService {
 
     @Secured({ "ROLE_USER_PROFISSIONAL" })
     public List<Solicitacao> getSolicitacoesEmAberto() {
-        return solicitacaoRepository.findByStatusSolicitacao(StatusSolicitacao.EM_ABERTO);
+        return solicitacaoRepository.findByStatusSolicitacaoIn(Arrays.asList(StatusSolicitacao.EM_ABERTO, StatusSolicitacao.ANALISE));
     }
 
     @Secured({ "ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL" })

@@ -1,12 +1,15 @@
 package unip.tcc.homecare.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import unip.tcc.homecare.enums.StatusSolicitacao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "solicitacao")
@@ -37,4 +40,8 @@ public class Solicitacao {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "solicitacao")
+    @JsonManagedReference
+    private List<Proposta> propostas = new ArrayList<>();
 }
