@@ -51,8 +51,8 @@ public class PropostaService {
         Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findById(propostaDTO.getIdSolicitacao());
         if(optionalSolicitacao.isPresent()) {
             solicitacao = optionalSolicitacao.get();
-            if(!solicitacao.getStatusSolicitacao().equals(StatusSolicitacao.EM_ABERTO) ||
-                    !solicitacao.getStatusSolicitacao().equals(StatusSolicitacao.ANALISE)) {
+            if(solicitacao.getStatusSolicitacao().equals(StatusSolicitacao.EM_EXECUCAO) ||
+                    solicitacao.getStatusSolicitacao().equals(StatusSolicitacao.CONCLUIDA)) {
                 throw new IllegalArgumentException("Usuário não pode enviar proposta para esta solicitação");
             }
             proposta.setSolicitacao(solicitacao);

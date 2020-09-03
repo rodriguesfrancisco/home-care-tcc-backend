@@ -41,7 +41,7 @@ public class Solicitacao {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "solicitacao")
+    @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Proposta> propostas = new ArrayList<>();
 }
