@@ -8,8 +8,10 @@ import unip.tcc.homecare.dto.UserDTO;
 import unip.tcc.homecare.dto.UsersMensagemDTO;
 import unip.tcc.homecare.model.CustomResponse;
 import unip.tcc.homecare.model.Mensagem;
+import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
 import unip.tcc.homecare.repository.MensagemRepository;
+import unip.tcc.homecare.repository.SolicitacaoRepository;
 import unip.tcc.homecare.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -28,9 +30,21 @@ public class SocketService {
     private UserRepository userRepository;
 
     @Autowired
+    private SolicitacaoRepository solicitacaoRepository;
+
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     public ResponseEntity enviarMensagem(Mensagem mensagem) {
+        Solicitacao solicitacao;
+        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findById(mensagem.getSolicitacao().getId());
+        if(optionalSolicitacao.isPresent()) {
+            solicitacao = optionalSolicitacao.get();
+        } else {
+            throw new IllegalArgumentException("Solicitação não encontrada");
+        }
+
+        mensagem.setSolicitacao(solicitacao);
         mensagem.setDate(new Date());
         mensagemRepository.save(mensagem);
 

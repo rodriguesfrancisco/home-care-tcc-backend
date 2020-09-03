@@ -28,4 +28,9 @@ public class Mensagem {
 
     @NotNull
     private Date date;
+
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "solicitacao_id")
+    private Solicitacao solicitacao;
 }
