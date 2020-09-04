@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
     Optional<Proposta> findByProfissionalIdAndSolicitacaoId(Long profissionalId, Long solicitacaoId);
     List<Proposta> findAllBySolicitacaoId(Long solicitacaoId);
+    List<Proposta> findAllByProfissionalId(Long profissionalId);
 }

@@ -64,9 +64,13 @@ public class PropostaService {
         propostaRepository.save(proposta);
     }
 
+    @Secured({"ROLE_USER_PROFISSIONAL"})
+    public List<Proposta> listarPropostasProfissional(Long profissionalId) {
+        return propostaRepository.findAllByProfissionalId(profissionalId);
+    }
+
     @Secured({"ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL"})
-    public List<Proposta> listarPropostas(Long solicitacaoId) {
-        List<Proposta> propostas = propostaRepository.findAllBySolicitacaoId(solicitacaoId);
-        return propostas;
+    public List<Proposta> listarPropostasPorSolicitacao(Long solicitacaoId) {
+        return propostaRepository.findAllBySolicitacaoId(solicitacaoId);
     }
 }

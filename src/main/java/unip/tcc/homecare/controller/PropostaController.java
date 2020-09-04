@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unip.tcc.homecare.dto.PropostaDTO;
 import unip.tcc.homecare.model.CustomResponse;
-import unip.tcc.homecare.model.Proposta;
 import unip.tcc.homecare.service.PropostaService;
-
-import java.nio.file.AccessDeniedException;
 
 @RestController
 public class PropostaController {
@@ -29,8 +26,13 @@ public class PropostaController {
         }
     }
 
+    @GetMapping("/users/{userId}/propostas")
+    public ResponseEntity<?> listarPropostas(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(propostaService.listarPropostasProfissional(userId));
+    }
+
     @GetMapping("/users/{userId}/solicitacoes/{solicitacaoId}/propostas")
-    public ResponseEntity<?> listarPropostas(@PathVariable("solicitacaoId") Long solicitacaoId) {
-        return ResponseEntity.ok(propostaService.listarPropostas(solicitacaoId));
+    public ResponseEntity<?> listarPropostasPorSolicitacao(@PathVariable("solicitacaoId") Long solicitacaoId) {
+        return ResponseEntity.ok(propostaService.listarPropostasPorSolicitacao(solicitacaoId));
     }
 }
