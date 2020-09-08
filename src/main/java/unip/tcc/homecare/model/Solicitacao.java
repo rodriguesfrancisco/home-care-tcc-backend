@@ -1,6 +1,8 @@
 package unip.tcc.homecare.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Solicitacao {
 
     public Solicitacao() {
@@ -41,7 +44,6 @@ public class Solicitacao {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
 }
