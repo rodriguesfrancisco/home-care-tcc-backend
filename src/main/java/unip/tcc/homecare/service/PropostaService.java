@@ -73,4 +73,9 @@ public class PropostaService {
     public List<Proposta> listarPropostasPorSolicitacao(Long solicitacaoId) {
         return propostaRepository.findAllBySolicitacaoId(solicitacaoId);
     }
+
+    @Secured({"ROLE_USER_PROFISSIONAL"})
+    public void editarProposta(Proposta proposta) {
+        propostaRepository.save(proposta);
+    }
 }

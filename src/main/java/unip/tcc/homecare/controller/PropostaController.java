@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unip.tcc.homecare.dto.PropostaDTO;
 import unip.tcc.homecare.model.CustomResponse;
+import unip.tcc.homecare.model.Proposta;
 import unip.tcc.homecare.service.PropostaService;
 
 @RestController
@@ -34,5 +35,11 @@ public class PropostaController {
     @GetMapping("/users/{userId}/solicitacoes/{solicitacaoId}/propostas")
     public ResponseEntity<?> listarPropostasPorSolicitacao(@PathVariable("solicitacaoId") Long solicitacaoId) {
         return ResponseEntity.ok(propostaService.listarPropostasPorSolicitacao(solicitacaoId));
+    }
+
+    @PutMapping("/users/{userId}/propostas")
+    public ResponseEntity<?> editarProposta(@RequestBody Proposta proposta) {
+        propostaService.editarProposta(proposta);
+        return ResponseEntity.ok(new CustomResponse("Proposta editada com sucesso", HttpStatus.OK.value()));
     }
 }
