@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
     List<Mensagem> findByFromIdIn(Collection<Long> fromIds);
+    List<Mensagem> findBySolicitacaoId(Long solicitacaoId);
 }

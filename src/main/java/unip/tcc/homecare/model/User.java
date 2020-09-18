@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import unip.tcc.homecare.dto.UserDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -63,6 +64,15 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserEndereco endereco;
+
+    public UserDTO toDto() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(this.id);
+        userDTO.setNomeCompleto(this.nomeCompleto);
+        userDTO.setEmail(this.email);
+        userDTO.setRoles(this.roles);
+        return userDTO;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

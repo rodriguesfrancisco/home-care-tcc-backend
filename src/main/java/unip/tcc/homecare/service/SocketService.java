@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import unip.tcc.homecare.dto.MensagemDTO;
+import unip.tcc.homecare.dto.ProfissionalMensagemDTO;
 import unip.tcc.homecare.dto.UserDTO;
 import unip.tcc.homecare.dto.UsersMensagemDTO;
 import unip.tcc.homecare.model.CustomResponse;
@@ -15,10 +17,7 @@ import unip.tcc.homecare.repository.SolicitacaoRepository;
 import unip.tcc.homecare.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SocketService {
@@ -84,6 +83,45 @@ public class SocketService {
         usersMensagemDTO.setToUser(toUserDto);
 
         return usersMensagemDTO;
+    }
+
+    public MensagemDTO listarMensagensPorSolicitacao(Long idSolicitacao) {
+        List<Mensagem> mensagens = mensagemRepository.findBySolicitacaoId(idSolicitacao);
+
+        List<Mensagem> mensagensDosProfissionais = new ArrayList<>();
+        for(Mensagem mensagem : mensagens) {
+            if(!mensagem.getFromId().equals(mensagem.getSolicitacao().getUser().getId())) {
+                mensagensDosProfissionais.add(mensagem);
+            }
+        }
+
+        if(!mensagensDosProfissionais.isEmpty()) {
+            Map<UserDTO, List<Mensagem>> mensagensPorProfissional = new HashMap<>();
+            for(Mensagem mensagemDoProfissional : mensagensDosProfissionais) {
+                User profissional = userRepository.findById(mensagemDoProfissional.getFromId()).get();
+                if(!mensagensPorProfissional.containsKey(profissional)) {
+                    List<Mensagem> novasMensagens = new ArrayList<>();
+                    novasMensagens.add(mensagemDoProfissional);
+                    mensagensPorProfissional.put(profissional.toDto(), novasMensagens);
+                } else {
+                    List<Mensagem> mensagensJaExistentes = mensagensPorProfissional.get(profissional);
+                    mensagensJaExistentes.add(mensagemDoProfissional);
+                    mensagensPorProfissional.put(profissional.toDto(), mensagensJaExistentes);
+                }
+            }
+
+            List<ProfissionalMensagemDTO> profissionalMensagemDTOS = new ArrayList<>();
+            mensagensPorProfissional.forEach((profissional, mensagensInMap) -> {
+                ProfissionalMensagemDTO profissionalMensagemDTO = new ProfissionalMensagemDTO(profissional, mensagensInMap);
+                profissionalMensagemDTOS.add(profissionalMensagemDTO);
+            });
+
+            return new MensagemDTO(profissionalMensagemDTOS, solicitacaoRepository.getOne(idSolicitacao));
+        }
+
+
+
+        return null;
     }
 
 }
