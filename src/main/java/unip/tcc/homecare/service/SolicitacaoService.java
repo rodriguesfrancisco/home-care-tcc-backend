@@ -4,11 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import unip.tcc.homecare.enums.StatusSolicitacao;
+import unip.tcc.homecare.model.Atendimento;
+import unip.tcc.homecare.model.Proposta;
 import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.model.User;
+import unip.tcc.homecare.repository.AtendimentoRepository;
+import unip.tcc.homecare.repository.PropostaRepository;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +22,12 @@ public class SolicitacaoService {
 
     @Autowired
     private SolicitacaoRepository solicitacaoRepository;
+
+    @Autowired
+    private PropostaRepository propostaRepository;
+
+    @Autowired
+    private AtendimentoRepository atendimentoRepository;
 
     @Secured({ "ROLE_USER_PROFISSIONAL" })
     public List<Solicitacao> getSolicitacoesEmAberto() {
@@ -60,5 +71,30 @@ public class SolicitacaoService {
 
     public void editarSolicitacao(Solicitacao solicitacao) {
         solicitacaoRepository.save(solicitacao);
+    }
+
+    @Secured({ "ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL" })
+    public void aceitarProposta(Long solicitacaoId, Long propostaId) {
+        Proposta proposta = propostaRepository.findById(propostaId).orElseThrow(
+                () -> new IllegalArgumentException("Proposta não encontrada.")
+        );
+
+        Solicitacao solicitacao = solicitacaoRepository.findById(solicitacaoId).orElseThrow(
+                () -> new IllegalArgumentException("Solicitação não encontrada.")
+        );
+
+        if(!proposta.getSolicitacao().getId().equals(solicitacao.getId())) {
+            throw new IllegalArgumentException("Você não pode aceitar a proposta de outra solicitação");
+        }
+
+        solicitacao.setStatusSolicitacao(StatusSolicitacao.EM_EXECUCAO);
+
+        Atendimento atendimento = new Atendimento();
+        atendimento.setProposta(proposta);
+        atendimento.setSolicitacao(solicitacao);
+        atendimento.setInicioAtendimento(new Date());
+
+        solicitacaoRepository.save(solicitacao);
+        atendimentoRepository.save(atendimento);
     }
 }

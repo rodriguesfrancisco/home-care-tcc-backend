@@ -62,4 +62,11 @@ public class SolicitacaoController {
         solicitacaoService.editarSolicitacao(solicitacao);
         return ResponseEntity.ok().body(new CustomResponse("Solicitação Atualizada", HttpStatus.OK.value()));
     }
+
+    @PutMapping("/users/{userId}/solicitacoes/{solicitacaoId}/propostas/{propostaId}/aceitar")
+    public ResponseEntity aceitarProposta(@PathVariable("solicitacaoId") Long solicitacaoId,
+                                          @PathVariable("propostaId") Long propostaId) {
+        solicitacaoService.aceitarProposta(solicitacaoId, propostaId);
+        return ResponseEntity.ok().body(new CustomResponse("Solicitação agora em atendimento", HttpStatus.OK.value()));
+    }
 }
