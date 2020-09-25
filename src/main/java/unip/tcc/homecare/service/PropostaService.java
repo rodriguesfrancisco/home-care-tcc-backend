@@ -12,6 +12,7 @@ import unip.tcc.homecare.repository.PropostaRepository;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 import unip.tcc.homecare.repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +67,8 @@ public class PropostaService {
 
     @Secured({"ROLE_USER_PROFISSIONAL"})
     public List<Proposta> listarPropostasProfissional(Long profissionalId) {
-        return propostaRepository.findAllByProfissionalId(profissionalId);
+        return propostaRepository.findAllByProfissionalIdAndSolicitacaoStatusSolicitacaoNotIn(profissionalId,
+                Arrays.asList(StatusSolicitacao.EM_EXECUCAO, StatusSolicitacao.CONCLUIDA));
     }
 
     @Secured({"ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL"})

@@ -44,6 +44,9 @@ public class Solicitacao {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(mappedBy = "solicitacao")
+    private Atendimento atendimento;
+
     @OneToMany(mappedBy = "solicitacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proposta> propostas = new ArrayList<>();
 }
