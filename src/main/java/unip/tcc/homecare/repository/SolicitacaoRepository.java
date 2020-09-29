@@ -13,5 +13,6 @@ import java.util.Optional;
 @Repository
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
     Optional<Solicitacao> findByUserId(Long userId);
+    Optional<Solicitacao> findByUserIdAndStatusSolicitacaoNot(Long userId, StatusSolicitacao statusSolicitacao);
     List<Solicitacao> findByStatusSolicitacaoIn(Collection<StatusSolicitacao> statusSolicitacao);
 }

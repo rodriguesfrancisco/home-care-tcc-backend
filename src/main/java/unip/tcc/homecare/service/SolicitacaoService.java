@@ -38,7 +38,7 @@ public class SolicitacaoService {
 
     @Secured({ "ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL" })
     public Solicitacao getSolicitacaoByUser(Long userId) {
-        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findByUserId(userId);
+        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findByUserIdAndStatusSolicitacaoNot(userId, StatusSolicitacao.CONCLUIDA);
         if(optionalSolicitacao.isPresent()) {
             Solicitacao solicitacao = optionalSolicitacao.get();
             User userSolicitacao = solicitacao.getUser();
@@ -52,7 +52,7 @@ public class SolicitacaoService {
     }
 
     public void cadastrarSolicitacao(Long userId, Solicitacao solicitacao) {
-        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findByUserId(userId);
+        Optional<Solicitacao> optionalSolicitacao = solicitacaoRepository.findByUserIdAndStatusSolicitacaoNot(userId, StatusSolicitacao.CONCLUIDA);
         if(optionalSolicitacao.isPresent())
             throw new IllegalArgumentException("Esse usuário já tem uma solicitação cadastrada");
 
