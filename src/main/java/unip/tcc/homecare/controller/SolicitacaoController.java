@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import unip.tcc.homecare.dto.ConclusaoAtendimentoDTO;
 import unip.tcc.homecare.model.CustomResponse;
 import unip.tcc.homecare.model.Solicitacao;
 import unip.tcc.homecare.service.SolicitacaoService;
@@ -68,5 +69,13 @@ public class SolicitacaoController {
                                           @PathVariable("propostaId") Long propostaId) {
         solicitacaoService.aceitarProposta(solicitacaoId, propostaId);
         return ResponseEntity.ok().body(new CustomResponse("Solicitação agora em atendimento", HttpStatus.OK.value()));
+    }
+
+    @PutMapping("/users/{userId}/solicitacoes/{solicitacaoId}/atendimentos/{atendimentoId}/finalizar")
+    public ResponseEntity finalizarAtendimento(@PathVariable("atendimentoId") Long atendimentoId,
+                                               @PathVariable("solicitacaoId") Long solicitacaoId,
+                                               @RequestBody ConclusaoAtendimentoDTO conclusaoAtendimento) {
+        solicitacaoService.finalizarAtendimento(solicitacaoId, atendimentoId, conclusaoAtendimento);
+        return ResponseEntity.ok().body(new CustomResponse("Solicitação finalizada", HttpStatus.OK.value()));
     }
 }

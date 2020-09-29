@@ -3,12 +3,11 @@ package unip.tcc.homecare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import unip.tcc.homecare.dto.ConclusaoAtendimentoDTO;
 import unip.tcc.homecare.enums.StatusSolicitacao;
-import unip.tcc.homecare.model.Atendimento;
-import unip.tcc.homecare.model.Proposta;
-import unip.tcc.homecare.model.Solicitacao;
-import unip.tcc.homecare.model.User;
+import unip.tcc.homecare.model.*;
 import unip.tcc.homecare.repository.AtendimentoRepository;
+import unip.tcc.homecare.repository.ConclusaoAtendimentoRepository;
 import unip.tcc.homecare.repository.PropostaRepository;
 import unip.tcc.homecare.repository.SolicitacaoRepository;
 
@@ -28,6 +27,9 @@ public class SolicitacaoService {
 
     @Autowired
     private AtendimentoRepository atendimentoRepository;
+
+    @Autowired
+    private ConclusaoAtendimentoRepository conclusaoAtendimentoRepository;
 
     @Secured({ "ROLE_USER_PROFISSIONAL" })
     public List<Solicitacao> getSolicitacoesEmAberto() {
@@ -96,5 +98,26 @@ public class SolicitacaoService {
 
         solicitacaoRepository.save(solicitacao);
         atendimentoRepository.save(atendimento);
+    }
+
+    @Secured({ "ROLE_USER_PACIENTE", "ROLE_USER_RESPONSAVEL" })
+    public void finalizarAtendimento(Long solicitacaoId, Long atendimentoId, ConclusaoAtendimentoDTO conclusaoAtendimentoDTO) {
+        Atendimento atendimento = atendimentoRepository.findById(atendimentoId).orElseThrow(
+                () -> new IllegalArgumentException("Atendimento não encontrado.")
+        );
+
+        Solicitacao solicitacao = solicitacaoRepository.findById(solicitacaoId).orElseThrow(
+                () -> new IllegalArgumentException("Solicitação não encontrada.")
+        );
+
+        ConclusaoAtendimento conclusaoAtendimento = new ConclusaoAtendimento();
+        conclusaoAtendimento.setAtendimento(atendimento);
+        conclusaoAtendimento.setInformacoesAtendimento(conclusaoAtendimentoDTO.getInformacoesAtendimento());
+        conclusaoAtendimento.setNota(conclusaoAtendimentoDTO.getNota());
+
+        solicitacao.setStatusSolicitacao(StatusSolicitacao.CONCLUIDA);
+
+        solicitacaoRepository.save(solicitacao);
+        conclusaoAtendimentoRepository.save(conclusaoAtendimento);
     }
 }
