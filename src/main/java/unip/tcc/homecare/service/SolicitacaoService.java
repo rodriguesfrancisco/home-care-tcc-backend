@@ -114,6 +114,7 @@ public class SolicitacaoService {
         conclusaoAtendimento.setAtendimento(atendimento);
         conclusaoAtendimento.setInformacoesAtendimento(conclusaoAtendimentoDTO.getInformacoesAtendimento());
         conclusaoAtendimento.setNota(conclusaoAtendimentoDTO.getNota());
+        conclusaoAtendimento.setDataConclusao(new Date());
 
         solicitacao.setStatusSolicitacao(StatusSolicitacao.CONCLUIDA);
 

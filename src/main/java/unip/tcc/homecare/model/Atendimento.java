@@ -1,5 +1,7 @@
 package unip.tcc.homecare.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ import java.util.Date;
 @Table(name = "atendimento")
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Atendimento {
 
     @Id
@@ -27,4 +30,7 @@ public class Atendimento {
 
     @NotNull
     private Date inicioAtendimento;
+
+    @OneToOne(mappedBy = "atendimento")
+    private ConclusaoAtendimento conclusaoAtendimento;
 }
