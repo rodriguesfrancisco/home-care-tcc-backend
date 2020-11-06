@@ -59,6 +59,7 @@ public class SocketService {
         mensagens.addAll(messagesFromId1ToId2);
         List<Mensagem> messagesFromId2ToId1 = mensagemRepository.findByFromIdAndToId(fromId2, fromId1);
         mensagens.addAll(messagesFromId2ToId1);
+        mensagens.sort(Comparator.comparing(Mensagem::getId));
         return mensagens;
     }
 
