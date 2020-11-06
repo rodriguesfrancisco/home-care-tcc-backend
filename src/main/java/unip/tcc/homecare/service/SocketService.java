@@ -54,7 +54,7 @@ public class SocketService {
     }
 
     public List<Mensagem> listarMensagens(Long fromId1, Long fromId2) {
-        return mensagemRepository.findByFromIdIn(Arrays.asList(fromId1, fromId2));
+        return mensagemRepository.findByFromIdOrFromId(Arrays.asList(fromId1, fromId2));
     }
 
     public UsersMensagemDTO listarUserMensagens(Long fromId, Long toId) {

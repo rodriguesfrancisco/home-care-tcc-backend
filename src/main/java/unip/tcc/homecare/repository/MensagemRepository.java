@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
-    List<Mensagem> findByFromIdIn(Collection<Long> fromIds);
+    List<Mensagem> findByFromIdOrFromId(Collection<Long> fromIds);
     List<Mensagem> findBySolicitacaoId(Long solicitacaoId);
 }
