@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "atendimento")
 @Getter
 @Setter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Atendimento.class)
 public class Atendimento {
 
     @Id

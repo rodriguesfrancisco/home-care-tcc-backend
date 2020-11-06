@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "proposta")
 @Getter
 @Setter
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Proposta.class)
 public class Proposta {
 
     @Id

@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Solicitacao.class)
 public class Solicitacao {
 
     public Solicitacao() {
